@@ -6,6 +6,7 @@
 #include "caffe/blob.hpp"
 #include "caffe/layer.hpp"
 #include "caffe/proto/caffe.pb.h"
+#include "opencv2/opencv.hpp"
 
 
 
@@ -38,7 +39,8 @@ class TextProposalLayer : public Layer<Dtype> {
   virtual void Backward_gpu(const vector<Blob<Dtype>*>& top,
      const vector<bool>& propagate_down, const vector<Blob<Dtype>*>& bottom);
 
-
+ //std::shared_ptr<>;
+   //std::vector<std::shared_ptr<> >  
 
 };
 
