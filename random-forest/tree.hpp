@@ -1,18 +1,22 @@
-#ifndef CASCADE_RANDOM_FOREST_GRAPH_HPP_
-#define CASCADE_RANDOM_FOREST_GRAPH_HPP_
+#ifndef CASCADE_RANDOM_FOREST_TREE_HPP_
+#define CASCADE_RANDOM_FOREST_TREE_HPP_
 
 #include <map>
 #include "glog/logging.h"
 #include "random-forest/node.hpp"
+#include "random-forest/data.hpp"
+#include "random-forest/random.hpp" 
 using namespace std;
 
 namespace kurff{
-    class Graph{
+    class Tree{
         public:
-            Graph(){
+            Tree(int num_feature_stage, int max_depth) : num_feature_stage_(num_feature_stage),
+            max_depth_(max_depth){
+                random_.reset(new Random());
 
             }
-            ~Graph(){
+            ~Tree(){
 
             }
 
@@ -46,10 +50,40 @@ namespace kurff{
                 }
             }
 
+
+            
+
+            void train(const Data& data, int depth){
+                if(depth >= max_depth_){
+
+                }
+                indexes_.clear();
+                for(int i = 0; i < num_feature_stage_; ++ i){
+                    int index = random_->Next(0, data.dimension_);
+                    indexes_.push_back(index);
+                }
+
+                
+
+                
+
+
+
+
+
+
+            }
+
+
+
             
 
         protected:
             std::map<int, std::shared_ptr<Node> > nodes_;
+            std::shared_ptr<Random> random_;
+            std::vector<int> indexes_;
+            int num_feature_stage_;
+            int max_depth_;
 
 
 

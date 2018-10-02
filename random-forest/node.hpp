@@ -2,6 +2,7 @@
 #define CASCADE_RANDOM_FOREST_NODE_HPP_
 #include <vector>
 #include <string>
+#include <memory>
 using namespace std;
 
 #include "random-forest/classifier.hpp"
