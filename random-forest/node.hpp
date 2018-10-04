@@ -4,8 +4,6 @@
 #include <string>
 #include <memory>
 using namespace std;
-
-#include "random-forest/classifier.hpp"
 namespace kurff{
 
 
@@ -16,7 +14,7 @@ namespace kurff{
             Node(){
 
             }
-            Node(){
+            ~Node(){
 
             }
 
@@ -25,9 +23,10 @@ namespace kurff{
         public:
             Node* left_;
             Node* right_;
-            std::shared_ptr<Classifier> classifier_;
-            int index_;
-            
+            int node_index_;
+            int feat_index_;
+            float threshold_;
+            string name_;
 
 
 
