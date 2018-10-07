@@ -8,6 +8,12 @@
 #include "random-forest/data.hpp"
 #include "random-forest/random.hpp" 
 #include "glog/logging.h"
+
+#include "random-forest/graphviz.hpp"
+
+
+//#define DEBUG
+
 using namespace std;
 
 namespace kurff{
@@ -57,11 +63,33 @@ namespace kurff{
                 nodes_index_ = 0;
                 std::shared_ptr<Node> p(new Node());
                 p->node_index_ = nodes_index_;
+                p->is_split_ = true;
+                p->node_name_ = std::to_string(nodes_index_);
                 nodes_.insert(std::make_pair(nodes_index_, p));
+
                 train(p.get(), data, 0, data->feats_.size(), 0);
             }
 
-            void save(string file){
+            void save_graphvis(string file){
+                GraphViz<Node> graph;
+                for(auto n : nodes_){
+                    //LOG(INFO)<<
+                    graph.add_node(n.second.get());
+                }
+
+                for(auto n : nodes_){
+                    if(n.second->left_ != nullptr){
+                        graph.add_edge(n.second.get(), n.second->left_);
+                    }
+                    if(n.second->right_ != nullptr){
+                        graph.add_edge(n.second.get(), n.second->right_);
+                    }
+                }
+
+                graph.render(file);
+
+     
+
                 
 
             }
@@ -72,7 +100,7 @@ namespace kurff{
                     int index = random_->Next(0, data->dimension_);
                     indexes_.push_back(index);
                 }
-                LOG(INFO)<<"train node: "<< node->node_index_<<" "<<i0<<" "<<i1;
+                LOG(INFO)<<"train node: "<< node->node_index_<<" i0: "<<i0<<" i1: "<<i1<< " depth: "<< depth;
 
                 float max_vars = -1e10;
                 float vars = 0.0f;
@@ -87,26 +115,73 @@ namespace kurff{
                         data->feats_[j]->v_ = data->feats_[j]->feat_[indexes_[idx]];
 
                     }
+
+                    #ifdef DEBUG
                     LOG(INFO)<<"sorting: "<< data->feats_.size();
+                    for(auto x = data->feats_.begin(); x != data->feats_.begin() + i1; ++ x){
+                        std::cout<< x->get()->v_<<" ";
+                    }
+                    std::cout<<endl;
+                    #endif
+
                     std::sort(data->feats_.begin() + i0, data->feats_.begin() + i1, kurff::compare );
+
+
+                    #ifdef DEBUG
+                    for(auto x = data->feats_.begin(); x != data->feats_.begin() + i1; ++ x){
+                        std::cout<< x->get()->v_<<" ";
+                    }
+                    std::cout<<endl;
                     LOG(INFO)<<"finish sorting: ";
-                    float v = data->variance(i0, i1);
+                    #endif
+
+                   
+                    //float v = data->variance(i0, i1);
+
                     
-                    //LOG(INFO)<<"covariance: "<< v;
+                    
+                    vector<float> varl;
+                    vector<float> varr;
+                    data->fast_variance(i0,i1, varl, varr);
+                    float v = varr[0];
+
+                    LOG(INFO)<<"varl: "<<varl[0]<<" "<< varl[i1-i0-1];
+                    LOG(INFO)<<"varr: "<<varr[0]<<" "<< varr[i1-i0-1];
                     for(int i = i0; i < i1; ++ i){
+                        //v0 = varl[i-i0];
+                        //v1 = varr[i-i0];
                         v0 = data->variance(i0,i);
                         v1 = data->variance(i,i1);
-                        vars = v - v0*float(i-i0)/ float(i1 -i0) - v1*float(i1 - i) /float(i1 - i0);
-                        //LOG(INFO)<<"v: "<<v<<" v0: "<< v0<< " v1: "<< v1 <<" vars: "<< vars;
-                        if(max_vars <= vars){
+                        //LOG(INFO)<< "v0 : "<< v0 <<" "<< data->variance(i0,i);
+                        //LOG(INFO)<< "v1 : "<< v1 <<" "<< data->variance(i,i1);
+                        vars =v -v0*float(i-i0)/ float(i1 -i0) - v1*float(i1 - i) /float(i1 - i0);
+                        //LOG(INFO)<<"vars: "<<vars;
+                       if(max_vars <= vars){
                             max_vars = vars;
                             feat_index = indexes_[idx];
                             threshold = data->feats_[i]->v_;
                             data_index = i;
                             LOG(INFO)<<"max vars: "<< max_vars<<" feat_index: "<< feat_index<<" threshold: "
-                            <<threshold<<" data_index: "<< data_index <<" i0: "<< i0 <<" i1: "<< i1 ;
+                             <<threshold<<" data_index: "<< data_index <<" i0: "<< i0 <<" i1: "<< i1 ;
                         }
                     }
+
+
+                    //LOG(INFO)<<"covariance: "<< v;
+                    // for(int i = i0; i < i1; ++ i){
+                    //     v0 = data->variance(i0,i);
+                    //     v1 = data->variance(i,i1);
+                    //     vars = v - v0*float(i-i0)/ float(i1 -i0) - v1*float(i1 - i) /float(i1 - i0);
+                    //     //LOG(INFO)<<"v: "<<v<<" v0: "<< v0<< " v1: "<< v1 <<" vars: "<< vars;
+                    //     if(max_vars <= vars){
+                    //         max_vars = vars;
+                    //         feat_index = indexes_[idx];
+                    //         threshold = data->feats_[i]->v_;
+                    //         data_index = i;
+                    //         LOG(INFO)<<"max vars: "<< max_vars<<" feat_index: "<< feat_index<<" threshold: "
+                    //         <<threshold<<" data_index: "<< data_index <<" i0: "<< i0 <<" i1: "<< i1 ;
+                    //     }
+                    // }
                 }
                 LOG(INFO)<<"Best: "<< max_vars<<" feat_index: "<< feat_index<<" threshold: "
                 <<threshold<<" data_index: "<< data_index <<" i0: "<< i0 <<" i1: "<< i1 ;
@@ -115,9 +190,11 @@ namespace kurff{
                 //nodes_.insert(std::make_pair(nodes_index_, p));
                 if(depth <= max_depth_ && i1 - i0 > 1 ){
                     std::shared_ptr<Node> l (new Node());
+                    node->is_split_ = true;
                     node->left_ = l.get();
                     ++ nodes_index_;
                     l->node_index_ = nodes_index_;
+                    l->node_name_ = std::to_string(nodes_index_);
                     nodes_.insert(std::make_pair(nodes_index_, l));
                     train(l.get(), data, i0, data_index, depth + 1);
                     
@@ -125,12 +202,18 @@ namespace kurff{
                     node->right_ = r.get();
                     ++ nodes_index_;
                     r->node_index_ = nodes_index_;
+                    r->node_name_ = std::to_string(nodes_index_);
                     nodes_.insert(std::make_pair(nodes_index_, r));
                     train(r.get(), data, data_index, i1, depth + 1);
                 }else{
                     node->left_ = nullptr;
                     node->right_ = nullptr;
                     node->name_ = data->feats_[i0]->label_name_;
+                    //node->node_name_ = std::to_string();
+                    //node->node_name_ = std::to_string(i0)+"_"+std::to_string(i1);
+                    node->node_name_ = std::to_string(i0)+"_"+std::to_string(i1)+"_"+node->name_;
+                    node->is_split_ = false;
+                    LOG(INFO)<<"label_name_: "<< node->name_;
                 }
 
             }

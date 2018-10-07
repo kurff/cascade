@@ -6,6 +6,7 @@
 #include <fstream>
 #include <assert.h>
 #include "opencv2/opencv.hpp"
+#include "glog/logging.h"
 #include <cmath>
 
 
@@ -18,6 +19,7 @@ namespace kurff{
         int number_;
         float v_;
         string label_name_;
+        int index_;
 
 
     }Element;
@@ -90,6 +92,7 @@ namespace kurff{
                     }
                     feat->number_ = 1;
                     feat->label_name_ = std::to_string(k);
+                    feat->index_ = k;
                     feats_.push_back(feat);
                 }
                 dimension_ = height_* width_;
@@ -152,14 +155,62 @@ namespace kurff{
                 return v ;
             }
 
-            void fast_variance(int i0, int i1, vector<float>& var){
-                var.clear();
+
+            void fast_variance(int i0, int i1, vector<float>& varl, vector<float>& varr ){
+                varl.clear();
+                varr.clear();
                 //vector<vector<float> > s;
                 //cv::Mat cv::Mat::zeros();
+                 if( i1 <= i0 ) return;
+                std::shared_ptr<float> xm(new float [(i1-i0)*dimension_](), std::default_delete<float []>());
+                std::shared_ptr<float> x2(new float [(i1-i0)*dimension_](), std::default_delete<float []>());
 
                 for(int i = i0; i < i1; ++i){
+                    memcpy(xm.get() + (i-i0)*dimension_, feats_[i]->feat_.data(), sizeof(float)*dimension_);
+                    memcpy(x2.get() + (i-i0)*dimension_, feats_[i]->feat_.data(), sizeof(float)*dimension_);
+                    for(int j = 0; j < dimension_; ++ j){
+                        x2.get()[(i-i0)*dimension_+j] *= x2.get()[(i-i0)*dimension_+j];
+                    }
+                }
+
+                for(int j = 0; j < dimension_; ++ j){
+                    for(int i = i0+1; i < i1; ++ i){
+                        xm.get()[(i-i0)*dimension_+j] += xm.get()[(i-i0-1)*dimension_+j];
+                        x2.get()[(i-i0)*dimension_+j] += x2.get()[(i-i0-1)*dimension_+j];
+                    }
+                }
+
+                varl.resize(i1-i0);
+                varr.resize(i1-i0);
+                float ex2 = 0.0f, ex = 0.0f, v = 0.0f;
+                varl[0] = 0.0f;
+                varr[0] = 0.0f;
+                for(int j = 0 ; j < dimension_; ++ j){
+                    ex2 = x2.get()[(i1-1-i0)*dimension_+j] / float(i1-i0);
+                    ex  = xm.get()[(i1-1-i0)*dimension_+j] / float(i1-i0);
+                    v = ex2 -ex*ex;
+                    varr[0] = std::max(v, varr[0]);
+                }
+
+
+
+                for(int i = i0+1; i < i1; ++ i){
+                    varl[i-i0] = 0;
+                    varr[i-i0] = 0;
+                    for(int j = 0; j < dimension_; ++ j){
+                        ex2 = x2.get()[(i-i0)*dimension_+j] / float(i-i0);
+                        ex = xm.get()[(i-i0)*dimension_+j] / float(i-i0);
+                        v = ex2 - ex*ex;
+                        varl[i-i0] = std::max(v , varl[i-i0] );
+                        ex2 = (x2.get()[(i1-1-i0)*dimension_+j] - x2.get()[(i-i0)*dimension_+j]) /float(i1 - i);
+                        ex =  (xm.get()[(i1-1-i0)*dimension_+j] - xm.get()[(i-i0)*dimension_+j]) /float(i1 - i);
+                        v = ex2 - ex*ex;
+                        varr[i-i0] =std::max(v, varr[i-i0]);
+                    }
+                    
 
                 }
+
 
 
             }
@@ -174,12 +225,6 @@ namespace kurff{
             int dimension_;
             int height_;
             int width_;
-
-
-            
-
-            
-
     };
 
 
