@@ -30,6 +30,13 @@ namespace kurff{
                 return t;
             }
 
+            // Agnode_t* add_node(T* node, char* name, char* value){
+            //     Agnode_t* n = add_node(node);
+            //     //agsafeset(n, "color", "red");
+            // }
+
+
+
 
 
             Agedge_t* add_edge(T* parent, T* child){
@@ -47,15 +54,19 @@ namespace kurff{
                 Agedge_t* edge = agedge(g_,prt->second, cid->second, const_cast<char*>(name.c_str()), 1);
                 edges_.insert(std::make_pair(name.c_str(), edge ));
                 return edge;
-
             }
+
+
 
             void render(string file){
                 //gvLayoutJobs(gvc_, g_);
+                
                 gvLayout(gvc_,g_, "dot");
+                //attach_attrs(g_);
                 /* Write the graph according to -T and -o options */
                 //gvRenderJobs(gvc_, g_);
                 gvRenderFilename(gvc_,g_,"png", file.c_str());
+                //attach_attrs(g_);
             }
 
         protected:

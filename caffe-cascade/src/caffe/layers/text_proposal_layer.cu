@@ -6,14 +6,9 @@
 
 namespace caffe {
 
-template <typename Dtype>
-void TextProposalLayer<Dtype>::Reshape(const vector<Blob<Dtype>*>& bottom,
-      const vector<Blob<Dtype>*>& top) {
- 
-}
 
 template <typename Dtype>
-void TextProposalLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype>*>& bottom,
+void TextProposalLayer<Dtype>::Forward_gpu(const vector<Blob<Dtype>*>& bottom,
     const vector<Blob<Dtype>*>& top) {
         
     
@@ -21,7 +16,7 @@ void TextProposalLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype>*>& bottom,
 }
 
 template <typename Dtype>
-void TextProposalLayer<Dtype>::Backward_cpu(const vector<Blob<Dtype>*>& top,
+void TextProposalLayer<Dtype>::Backward_gpu(const vector<Blob<Dtype>*>& top,
     const vector<bool>& propagate_down,
     const vector<Blob<Dtype>*>& bottom) {
     NOT_IMPLEMENTED;
@@ -29,10 +24,7 @@ void TextProposalLayer<Dtype>::Backward_cpu(const vector<Blob<Dtype>*>& top,
 }
 
 
-#ifdef CPU_ONLY
-STUB_GPU(TextProposalLayer);
-#endif
 
-INSTANTIATE_CLASS(TextProposalLayer);
+INSTANTIATE_LAYER_GPU_FUNCS(TextProposalLayer);
 
 }  // namespace caffe

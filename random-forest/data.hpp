@@ -31,7 +31,7 @@ namespace kurff{
 
     class Data{
         public:
-            Data():height_(24), width_(24){
+            Data():height_(100), width_(100){
                 
 
             }
@@ -153,6 +153,23 @@ namespace kurff{
                     v = std::max(var[j], v);
                 }
                 return v ;
+            }
+
+            cv::Mat mean(){
+                cv::Mat img = cv::Mat::zeros(height_, width_, CV_8UC1);
+                vector<float> mean(dimension_, 0.0f);
+                for(int j = 0; j < dimension_; ++ j){
+                    for(int i = 0; i < feats_.size(); ++ i){
+                        mean[j] += feats_[i]->feat_[j];
+                    }
+                    mean[j] /= float(feats_.size());
+                }
+                for(int i = 0; i < height_; ++ i){
+                    for(int j = 0; j < width_; ++ j){
+                        img.at<uchar>(i,j) = 255* mean[i*width_+j];
+                    }
+                }
+                return img;
             }
 
 

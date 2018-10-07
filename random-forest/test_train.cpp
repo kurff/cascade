@@ -3,6 +3,7 @@
 #include "random-forest/data.hpp"
 #include "random-forest/hierarchical.hpp"
 
+
 using namespace kurff;
 
 int main(){
@@ -12,11 +13,12 @@ int main(){
     std::shared_ptr<Hierarchical> hier(new Hierarchical(2));
     std::shared_ptr<Data> data(new Data());
     string path = "/media/kurff/d45400e1-76eb-453c-a31e-9ae30fafb7fd/data/characters/";
-    int number = 105;
+    int number = 2509;
     data->load_image_data(path, number);
     
     hier->clustering(data.get());
     hier->save_graphvis("z.png");
+    hier->save_codes("codec.txt");
     //tree->save_graphvis("x");
 
 

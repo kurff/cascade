@@ -36,6 +36,9 @@ namespace kurff{
             bool is_split_;
             cv::Mat center_;
             cv::Mat index_;
+            vector<int> codes_;
+            int data_index_;
+
 
 
 
