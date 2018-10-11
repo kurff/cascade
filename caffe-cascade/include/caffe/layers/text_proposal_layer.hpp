@@ -7,7 +7,7 @@
 #include "caffe/layer.hpp"
 #include "caffe/proto/caffe.pb.h"
 #include "opencv2/opencv.hpp"
-
+#include "proposals/Proposal.hpp"
 
 
 namespace caffe {
@@ -22,6 +22,8 @@ class TextProposalLayer : public Layer<Dtype> {
  public:
   explicit TextProposalLayer(const LayerParameter& param)
       : Layer<Dtype>(param) {}
+  virtual void LayerSetUp(const vector<Blob<Dtype>*>& bottom,
+      const vector<Blob<Dtype>*>& top);
   virtual void Reshape(const vector<Blob<Dtype>*>& bottom,
       const vector<Blob<Dtype>*>& top);
 
@@ -32,15 +34,15 @@ class TextProposalLayer : public Layer<Dtype> {
  protected:
   virtual void Forward_cpu(const vector<Blob<Dtype>*>& bottom,
       const vector<Blob<Dtype>*>& top);
-  virtual void Forward_gpu(const vector<Blob<Dtype>*>& bottom,
-      const vector<Blob<Dtype>*>& top);
+
   virtual void Backward_cpu(const vector<Blob<Dtype>*>& top,
       const vector<bool>& propagate_down, const vector<Blob<Dtype>*>& bottom);
-  virtual void Backward_gpu(const vector<Blob<Dtype>*>& top,
-     const vector<bool>& propagate_down, const vector<Blob<Dtype>*>& bottom);
-
+  
  //std::shared_ptr<>;
-   //std::vector<std::shared_ptr<> >  
+   //std::vector<std::shared_ptr<> >
+   std::vector<shared_ptr<kurff::Proposal> > proposals_;
+   int num_proposals_;
+
 
 };
 

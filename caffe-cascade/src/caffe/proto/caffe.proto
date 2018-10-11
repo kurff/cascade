@@ -445,6 +445,7 @@ message LayerParameter {
   optional ProposalTargetParameter proposal_target_param = 159;
   optional FrcnnOutputParameter frcnn_output_param = 160;
   optional DetectionEvaluateParameter detection_evaluate_param = 161;
+  optional TextProposalParameter text_proposal_param = 300;
 }
 
 // Message that stores parameters used to apply transformation
@@ -1493,6 +1494,14 @@ message BoxGroupOutputParameter {
   optional uint32 max_nms_num = 7 [default = 0];
   optional uint32 max_post_nms_num = 8 [default = 0];
   optional float min_size = 9 [default = 15]; 
+}
+
+message TextProposalParameter{
+  repeated string proposal_method = 1;
+  required int32 num_proposals = 2 [default = 1000];
+
+
+
 }
 
 // Message that stores parameters used by FrcnnOutputLayer
