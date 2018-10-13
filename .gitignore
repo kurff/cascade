@@ -2,3 +2,4 @@ build
 caffe-cascade/.build_release
 caffe-cascade/build
 caffe-cascade/distribute
+caffe-cascade/python/caffe/_caffe.so
