@@ -1,7 +1,7 @@
 /**
  */
-#ifndef _PROPOSAL_REGISTRY_H_
-#define _PROPOSAL_REGISTRY_H_
+#ifndef CAFFE_PROPOSAL_REGISTRY_H_
+#define CAFFE_PROPOSAL_REGISTRY_H_
 
 #include <algorithm>
 #include <cstdio>

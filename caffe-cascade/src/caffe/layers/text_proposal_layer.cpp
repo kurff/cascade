@@ -3,6 +3,7 @@
 
 #include "caffe/layers/text_proposal_layer.hpp"
 #include "caffe/util/math_functions.hpp"
+#include "caffe/proposals/CannyProposal.hpp"
 
 namespace caffe {
 
@@ -57,6 +58,7 @@ void TextProposalLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype>*>& bottom,
             top_data[i*6+5] = boxes[i].confidence_;
             top_data += top_dim;
         }
+        
     }
 }
 
@@ -72,4 +74,5 @@ void TextProposalLayer<Dtype>::Backward_cpu(const vector<Blob<Dtype>*>& top,
 
 INSTANTIATE_CLASS(TextProposalLayer);
 
+REGISTER_LAYER_CLASS(TextProposal);
 }  // namespace caffe

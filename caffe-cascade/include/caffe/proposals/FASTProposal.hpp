@@ -2,8 +2,8 @@
 #define __FAST_PROPOSAL_HPP__
 #include <vector>
 #include "glog/logging.h"
-#include "proposals/Proposal.hpp"
-#include "proposals/fast/fast.h"
+#include "caffe/proposals/Proposal.hpp"
+#include "caffe/proposals/fast/fast.h"
 namespace kurff{
     class FASTProposal : public Proposal{
         public:

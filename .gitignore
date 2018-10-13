@@ -1,1 +1,4 @@
 build
+caffe-cascade/.build_release
+caffe-cascade/build
+caffe-cascade/distribute
