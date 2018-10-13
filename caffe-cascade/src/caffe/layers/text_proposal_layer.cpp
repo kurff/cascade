@@ -12,9 +12,10 @@ void TextProposalLayer<Dtype>::LayerSetUp(const vector<Blob<Dtype>*>& bottom,
       const vector<Blob<Dtype>*>& top){
     TextProposalParameter text_proposal_param = this->layer_param_.text_proposal_param();
     num_proposals_ = text_proposal_param.num_proposals();
+    min_size_ = text_proposal_param.min_size();
     proposals_.clear();
     for(int i = 0; i < text_proposal_param.proposal_method_size(); ++ i){
-        proposals_.push_back(kurff::ProposalRegistry()->Create(text_proposal_param.proposal_method(i)+"Proposal"));
+        proposals_.push_back(kurff::ProposalRegistry()->Create(text_proposal_param.proposal_method(i)+"Proposal", min_size_));
     }
 
     
@@ -39,11 +40,12 @@ void TextProposalLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype>*>& bottom,
     int width = bottom[0]->width();
     Dtype* top_data = top[0]->mutable_cpu_data();
     int top_dim = top[0]->count(1);
+    int bottom_dim = bottom[0]->count(1);
     for(int i = 0; i < num; ++ i){
         vector<kurff::Box> boxes;
         for(int j = 0; j < proposals_.size(); ++ j){
             vector<kurff::Box> proposal;
-            proposals_[j]->run<Dtype>(data, height, width, channel, proposal);
+            proposals_[j]->run<Dtype>(data + i*bottom_dim, height, width, channel, proposal);
             boxes.insert(boxes.end(), proposal.begin(), proposal.end());
         }
         std::sort(boxes.begin(), boxes.end(), kurff::compare);
@@ -58,6 +60,7 @@ void TextProposalLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype>*>& bottom,
             top_data[i*6+5] = boxes[i].confidence_;
             top_data += top_dim;
         }
+
         
     }
 }

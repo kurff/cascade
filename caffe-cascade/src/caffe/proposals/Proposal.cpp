@@ -8,15 +8,17 @@ namespace kurff{
         cv::Mat image = cv::Mat::zeros(height, width, CV_8UC3);
         for(int i = 0; i < height; ++ i){
             for(int j = 0; j < width; ++ j){
-                uchar b = uchar(data[i*3*width + j *3]);
-                uchar g = uchar(data[i*3*width + j*3 + 1]);
-                uchar r = uchar(data[i*3*width + j*3 + 2]);
+                uchar b = uchar(data[i*width + j]);
+                uchar g = uchar(data[height*width+i*width + j]);
+                uchar r = uchar(data[2*height*width+i*width + j]);
                         //LOG(INFO)<<data[i*3*width + j *3];
                         //std::cout<<"r: "<<int(r) <<"g: "<<int(g) <<"b: "<<int(b);
                 image.at<Vec3b>(i,j) = Vec3b(b,g,r);
 
             }
         }
+
+
         cv::Mat gray;
         cvtColor( image, gray, CV_BGR2GRAY ); 
         run(gray, proposals);
@@ -34,7 +36,7 @@ namespace kurff{
     }
  
 
-    CAFFE_DEFINE_REGISTRY(ProposalRegistry, Proposal);
+    CAFFE_DEFINE_REGISTRY(ProposalRegistry, Proposal, int);
     
     template void Proposal::run<float>(const float*, int, int, int, vector<Box>&);
     template void Proposal::run<double>(const double*, int , int, int, vector<Box>&);

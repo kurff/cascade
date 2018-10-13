@@ -13,6 +13,7 @@ layer{
   text_proposal_param{
       proposal_method: "Canny"
       num_proposals: 1000
+      min_size : 20
   }
 
 

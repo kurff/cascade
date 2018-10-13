@@ -15,7 +15,7 @@ void CannyProposal::run(const Mat& gray, vector<Box>& proposals){
         box.width = stats.at<int>(i, CC_STAT_WIDTH );                   
         box.x = stats.at<int>(i,CC_STAT_LEFT ) ;
         box.y = stats.at<int>(i,CC_STAT_TOP);
-        if(box.height <5 || box.width < 5){
+        if(box.height * box.width < this->min_size_*this->min_size_){
             continue;
         }
         Box box_new = expand_box(box, 1.2, gray.rows, gray.cols);
@@ -26,6 +26,7 @@ void CannyProposal::run(const Mat& gray, vector<Box>& proposals){
     gray.copyTo(vis);
     visualize(vis, proposals, cv::Scalar(0,0,255));
     cv::imshow("src", vis);
+    cv::imshow("edge", edges);
     cv::waitKey(0);
                 
 }

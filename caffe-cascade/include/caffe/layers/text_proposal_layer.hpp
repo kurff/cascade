@@ -42,6 +42,7 @@ class TextProposalLayer : public Layer<Dtype> {
    //std::vector<std::shared_ptr<> >
    std::vector<shared_ptr<kurff::Proposal> > proposals_;
    int num_proposals_;
+   int min_size_;
 
 
 };

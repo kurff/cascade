@@ -1499,7 +1499,7 @@ message BoxGroupOutputParameter {
 message TextProposalParameter{
   repeated string proposal_method = 1;
   required int32 num_proposals = 2 [default = 1000];
-
+  required int32 min_size = 3 [default = 20];
 
 
 }

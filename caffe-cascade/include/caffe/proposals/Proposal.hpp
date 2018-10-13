@@ -8,7 +8,7 @@ using namespace cv;
 namespace kurff{
     class Proposal{
         public:
-            Proposal(){
+            Proposal(int min_size): min_size_(min_size){
 
             }
             ~Proposal(){
@@ -23,8 +23,9 @@ namespace kurff{
 
         protected:
             string name_;
+            int min_size_;
     };
-    CAFFE_DECLARE_REGISTRY(ProposalRegistry, Proposal);
+    CAFFE_DECLARE_REGISTRY(ProposalRegistry, Proposal, int);
 
 }
 
