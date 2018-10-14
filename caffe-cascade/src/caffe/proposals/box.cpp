@@ -35,7 +35,7 @@ namespace kurff{
 
 
     bool compare(const Box & b0, const Box& b1){
-        return b0.confidence_ < b1.confidence_;
+        return b0.confidence_ > b1.confidence_;
     }
 
 

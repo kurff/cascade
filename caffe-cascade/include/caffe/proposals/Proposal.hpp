@@ -2,6 +2,7 @@
 #define __PROPOSAL_HPP__
 #include "opencv2/opencv.hpp"
 #include "caffe/proposals/box.hpp"
+#include "caffe/proposals/visualization.hpp"
 #include "caffe/proposals/registry.hpp"
 #include "glog/logging.h"
 using namespace cv;

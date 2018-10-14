@@ -7,6 +7,7 @@
 #include "caffe/layer.hpp"
 #include "caffe/proto/caffe.pb.h"
 #include "opencv2/opencv.hpp"
+#include "caffe/data_transformer.hpp"
 
 
 namespace caffe {

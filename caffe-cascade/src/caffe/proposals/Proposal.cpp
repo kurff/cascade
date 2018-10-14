@@ -23,12 +23,22 @@ namespace kurff{
         cvtColor( image, gray, CV_BGR2GRAY ); 
         run(gray, proposals);
         evaluate(gray, proposals);
+        std::sort(proposals.begin(), proposals.end(), compare);
+        // vector<Box> boxes;
+        // boxes.insert(boxes.end(), proposals.begin(), proposals.end());
+        // visualize(image,  boxes, cv::Scalar(0,0,255));
+        // cv::imshow("s", image);
+        // cv::waitKey(0);
+
+
     }
     void Proposal::evaluate(const Mat& image, vector<Box>& proposals){
         for(int i = 0; i < proposals.size(); ++ i){
             Mat sub = image(proposals[i]);
             Mat dst;
             equalizeHist(sub,dst);
+            //cv::imshow("dst", dst);
+            //cv::waitKey(0);
             Mat m, d;
             meanStdDev(sub, m, d);
             proposals[i].confidence_ = d.at<double>(0,0);

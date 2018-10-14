@@ -4,7 +4,7 @@
 #include "opencv2/opencv.hpp"
 #include "caffe/proposals/Proposal.hpp"
 #include "caffe/proposals/utils.hpp"
-#include "caffe/proposals/visualization.hpp"
+
 #include <memory>
 namespace kurff{
     class CannyProposal : public Proposal{

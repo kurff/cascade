@@ -51,7 +51,7 @@ void TextProposalLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype>*>& bottom,
             boxes.insert(boxes.end(), proposal.begin(), proposal.end());
         }
         std::sort(boxes.begin(), boxes.end(), kurff::compare);
-
+        
         // sort boxes proposals, return top N candidate
         for(int i = 0; i < std::min<int>(boxes.size(), num_proposals_); ++ i){
             top_data[i*6+0] = i;
