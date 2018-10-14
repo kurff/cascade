@@ -17,6 +17,8 @@ void TextProposalLayer<Dtype>::LayerSetUp(const vector<Blob<Dtype>*>& bottom,
     for(int i = 0; i < text_proposal_param.proposal_method_size(); ++ i){
         proposals_.push_back(kurff::ProposalRegistry()->Create(text_proposal_param.proposal_method(i)+"Proposal", min_size_));
     }
+    //transform_param_(text_proposal_param.transform_param());
+
 
     
 }
@@ -60,8 +62,6 @@ void TextProposalLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype>*>& bottom,
             top_data[i*6+5] = boxes[i].confidence_;
             top_data += top_dim;
         }
-
-        
     }
 }
 

@@ -1,5 +1,5 @@
-#ifndef CAFFE_TEXT_PROPOSAL_LAYER_HPP_
-#define CAFFE_TEXT_PROPOSAL_LAYER_HPP_
+#ifndef CAFFE_TRANSFORM_DATA_LAYER_HPP_
+#define CAFFE_TRANSFORM_DATA_LAYER_HPP_
 
 #include <vector>
 
@@ -7,27 +7,22 @@
 #include "caffe/layer.hpp"
 #include "caffe/proto/caffe.pb.h"
 #include "opencv2/opencv.hpp"
-#include "caffe/proposals/Proposal.hpp"
 
 
 namespace caffe {
 
-/**
- * @brief Computes the softmax function.
- *
- * TODO(dox): thorough documentation for Forward, Backward, and proto params.
- */
+
 template <typename Dtype>
-class TextProposalLayer : public Layer<Dtype> {
+class TransformDataLayer : public Layer<Dtype> {
  public:
-  explicit TextProposalLayer(const LayerParameter& param)
+  explicit TransformDataLayer(const LayerParameter& param)
       : Layer<Dtype>(param) {}
   virtual void LayerSetUp(const vector<Blob<Dtype>*>& bottom,
       const vector<Blob<Dtype>*>& top);
   virtual void Reshape(const vector<Blob<Dtype>*>& bottom,
       const vector<Blob<Dtype>*>& top);
 
-  virtual inline const char* type() const { return "TextProposal"; }
+  virtual inline const char* type() const { return "TransformData"; }
   virtual inline int ExactNumBottomBlobs() const { return 1; }
   virtual inline int ExactNumTopBlobs() const { return 1; }
 
@@ -38,14 +33,8 @@ class TextProposalLayer : public Layer<Dtype> {
   virtual void Backward_cpu(const vector<Blob<Dtype>*>& top,
       const vector<bool>& propagate_down, const vector<Blob<Dtype>*>& bottom);
   
- //std::shared_ptr<>;
-   //std::vector<std::shared_ptr<> >
-   std::vector<shared_ptr<kurff::Proposal> > proposals_;
-   int num_proposals_;
-   int min_size_;
-
-   //TransformationParameter transform_param_;
-   //shared_ptr<DataTransformer<Dtype> > data_transformer_;
+   TransformationParameter transform_param_;
+   shared_ptr<DataTransformer<Dtype> > data_transformer_;
 
 
 
