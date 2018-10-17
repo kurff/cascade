@@ -9,6 +9,16 @@ include_directories(/usr/local/cuda/include/)
 include_directories(caffe-cascade/distribute/include/)
 link_directories(../caffe-cascade/distribute/lib/ /usr/lib/x86_64-linux-gnu/)
 
+add_custom_target(mytargetname ALL COMMAND ${CMAKE_COMMAND} -E make_directory ./test/)
+
+set(OPENCV_LIBS opencv_core opencv_highgui opencv_imgproc opencv_imgcodecs opencv_features2d)
+aux_source_directory(./test TEST_LIST)
+
+add_executable(${TEST_LIST}.bin ${TEST_LIST})
+target_link_libraries(${TEST_LIST}.bin glog ${OPENCV_LIBS})
+
+
+
 add_executable(split tools/split_image.cpp)
 target_link_libraries(split opencv_core opencv_highgui opencv_imgproc opencv_imgcodecs opencv_features2d)
 add_executable(test_train random-forest/test_train.cpp)

@@ -9,6 +9,8 @@ int main(){
     vector<int> label;
     cv::Mat image = cv::imread("../examples/100.jpg");
     ptr->run_each(image,confidence,label);
+    
+
 
 
     return 0;

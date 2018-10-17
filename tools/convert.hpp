@@ -12,6 +12,8 @@
 #include "caffe/util/io.hpp"
 #include "caffe/util/rng.hpp"
 
+#include "tools/image_transform.hpp"
+
 
 using namespace cv;
 using namespace std;
