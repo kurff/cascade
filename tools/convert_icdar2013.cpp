@@ -2,36 +2,7 @@
 #include <fstream>
 using namespace std;
 namespace kurff{
-    void ConvertICDAR2013::read_train_data(int show){
-        for(auto d : data_->train){
-            cv::Mat image = cv::imread(d.second.image_name);
-            vector<Rect> objects;
-            xml_->read_voc_format(d.second.annotation_name,objects);
-            if(show){
-                
-                for(auto r : objects){
-                    cv::rectangle(image, r, Scalar(0,0,255),2);
-                }
-                cv::imshow("src", image);
-                cv::waitKey(0);
-            }
-        }
-    }
 
-    void ConvertICDAR2013::read_test_data(int show){
-        for(auto d : data_->test){
-            cv::Mat image = cv::imread(d.second.image_name);
-            vector<Rect> objects;
-            xml_->read_voc_format(d.second.annotation_name,objects);
-            if(show){
-                for(auto r : objects){
-                    cv::rectangle(image, r, Scalar(0,0,255),2);
-                }
-                cv::imshow("src", image);
-                cv::waitKey(0);
-            }
-        }
-    }
 
 
     void ConvertICDAR2013::read_train(){

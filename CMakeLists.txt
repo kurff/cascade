@@ -15,9 +15,11 @@ set(OPENCV_LIBS opencv_core opencv_highgui opencv_imgproc opencv_imgcodecs openc
 aux_source_directory(./test TEST_LIST)
 aux_source_directory(./tools CONVERT_SRC)
 set(BOOST_LIBS boost_system boost_filesystem)
+add_library(convert ${CONVERT_SRC} )
+target_link_libraries(convert ${OPENCV_LIBS} ${BOOST_LIBS} caffe glog)
 foreach(source ${TEST_LIST})
-    add_executable(${source}.bin ${source} ${CONVERT_SRC})
-    target_link_libraries(${source}.bin glog ${OPENCV_LIBS} ${BOOST_LIBS} caffe)
+    add_executable(${source}.bin ${source} )
+    target_link_libraries(${source}.bin convert)
 endforeach(source)
 
 

@@ -13,8 +13,9 @@
 #include "caffe/util/io.hpp"
 #include "caffe/util/rng.hpp"
 
+#include "tools/data.hpp"
 #include "tools/image_transform.hpp"
-
+#include "tools/xml.hpp"
 
 
 
@@ -35,12 +36,16 @@ namespace kurff{
     }Data;
 
 
+
+
     class Convert{
         public:
-            Convert(const std::string& path){
+            Convert(const std::string& path, int resized_height, int resized_width):
+            resized_height_(resized_height), resized_width_(resized_width){
                 data_.reset(new Data());
                 data_->path = path;
-
+                image_transform_.reset(new ImageTransform(resized_height_,resized_width_));
+                xml_.reset(new XML<cv::Rect>());
             }
             ~Convert(){
 
@@ -54,19 +59,24 @@ namespace kurff{
 
             virtual void read_test() = 0;
 
-            virtual void read_train_data(int show) = 0;
+           
 
-            virtual void read_test_data(int show) = 0;
+            void write_train_data(int show = 0);
 
-            void write_db();
+            void write_test_data(int show = 0);
+
+
+            void write_db(const std::map<string, DataPair>& data, const std::string& name, int show);
 
 
         protected:
             std::shared_ptr<db::DB> db_;
             std::shared_ptr<db::Transaction> txn_;
             std::shared_ptr<Data> data_;
-
-
+            std::shared_ptr<ImageTransform> image_transform_;
+            int resized_height_;
+            int resized_width_;
+            std::shared_ptr<XML<cv::Rect> > xml_;
     };
 
 
