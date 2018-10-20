@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <map>
 #include "opencv2/opencv.hpp"
 #include "glog/logging.h"
 
@@ -15,14 +16,30 @@
 #include "tools/image_transform.hpp"
 
 
+
+
 using namespace cv;
 using namespace std;
 using namespace caffe;
 namespace kurff{
+
+    typedef struct DataPair_{
+        std::string image_name;
+        std::string annotation_name;
+    }DataPair;
+
+    typedef struct Data_{
+        std::map<string, DataPair> train;
+        std::map<string, DataPair> test;
+        std::string path;
+    }Data;
+
+
     class Convert{
         public:
-            Convert(){
-
+            Convert(const std::string& path){
+                data_.reset(new Data());
+                data_->path = path;
 
             }
             ~Convert(){
@@ -31,18 +48,23 @@ namespace kurff{
 
             void init(const string& name , const string& backend);
 
-            virtual void read_data_label() = 0;
+            void read_splits();
 
-            virtual void write_db() = 0;
+            virtual void read_train() = 0;
 
+            virtual void read_test() = 0;
+
+            virtual void read_train_data(int show) = 0;
+
+            virtual void read_test_data(int show) = 0;
+
+            void write_db();
 
 
         protected:
             std::shared_ptr<db::DB> db_;
             std::shared_ptr<db::Transaction> txn_;
-            cv::Mat image_;
-            vector<float> label_;
-
+            std::shared_ptr<Data> data_;
 
 
     };

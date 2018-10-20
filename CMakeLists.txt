@@ -13,14 +13,14 @@ add_custom_target(mytargetname ALL COMMAND ${CMAKE_COMMAND} -E make_directory ./
 
 set(OPENCV_LIBS opencv_core opencv_highgui opencv_imgproc opencv_imgcodecs opencv_features2d)
 aux_source_directory(./test TEST_LIST)
+aux_source_directory(./tools CONVERT_SRC)
+set(BOOST_LIBS boost_system boost_filesystem)
+foreach(source ${TEST_LIST})
+    add_executable(${source}.bin ${source} ${CONVERT_SRC})
+    target_link_libraries(${source}.bin glog ${OPENCV_LIBS} ${BOOST_LIBS} caffe)
+endforeach(source)
 
-add_executable(${TEST_LIST}.bin ${TEST_LIST})
-target_link_libraries(${TEST_LIST}.bin glog ${OPENCV_LIBS})
 
-
-
-add_executable(split tools/split_image.cpp)
-target_link_libraries(split opencv_core opencv_highgui opencv_imgproc opencv_imgcodecs opencv_features2d)
 add_executable(test_train random-forest/test_train.cpp)
 target_link_libraries(test_train glog opencv_core opencv_highgui opencv_imgproc opencv_imgcodecs opencv_features2d gvc cgraph)
 

@@ -7,4 +7,15 @@ namespace kurff{
         txn_.reset(db_->NewTransaction());
 
     }
+
+    void Convert::read_splits(){
+        read_train();
+        read_test();
+    }
+
+    void Convert::write_db(){
+        
+
+
+    }
 }
