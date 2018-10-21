@@ -27,6 +27,19 @@ message BlobProtoVector {
   repeated BlobProto blobs = 1;
 }
 
+
+message BBoxProto{
+  optional float xmin = 1 [default =0.0];
+  optional float ymin = 2 [default =0.0];
+  optional float xmax = 3 [default =0.0];
+  optional float ymax = 4 [default =0.0];
+  optional int32 label = 5[default =0];
+  optional bool difficult = 6 [default = false];
+  optional float score = 7 [default =0.0];
+  optional float size = 8 [default =0.0];
+
+}
+
 message Datum {
   optional int32 channels = 1;
   optional int32 height = 2;
@@ -39,6 +52,13 @@ message Datum {
   // If true data contains an encoded image that need to be decoded
   optional bool encoded = 7 [default = false];
 }
+
+message AnnoDatum{
+  optional Datum datum = 1;
+  repeated BBoxProto bbox = 2;
+  optional int32 item_id = 3 [default = 1];
+}
+
 
 // The label (display) name and label id.
 message LabelMapItem {

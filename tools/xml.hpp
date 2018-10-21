@@ -16,7 +16,7 @@ namespace kurff{
 
     template<typename Object>
     class XML{
-        public: 
+        public:
             XML(){
 
             }

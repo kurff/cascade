@@ -1,13 +1,25 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+
+if(POLICY CMP0046)
+  cmake_policy(SET CMP0046 NEW)
+endif()
+if(POLICY CMP0054)
+  cmake_policy(SET CMP0054 NEW)
+endif()
 PROJECT(split)
+
+
+add_definitions(-DUSE_OPENCV)
 add_compile_options(-std=c++11)
 
 include_directories(.)
 include_directories(/usr/include/graphviz)
 include_directories(/usr/local/cuda/include/)
 
+
 include_directories(caffe-cascade/distribute/include/)
 link_directories(../caffe-cascade/distribute/lib/ /usr/lib/x86_64-linux-gnu/)
+
 
 add_custom_target(mytargetname ALL COMMAND ${CMAKE_COMMAND} -E make_directory ./test/)
 
