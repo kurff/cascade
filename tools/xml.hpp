@@ -34,8 +34,8 @@ namespace kurff{
                 //cout<<size.get<int>("width")<<endl;
                 //cout<<size.get<int>("height")<<endl;
                 //cout<<size.get<int>("depth")<<endl;
-                int height = size.get<int>("height");
-                int width = size.get<int>("width");
+                //int height = size.get<int>("height");
+                //int width = size.get<int>("width");
                
                 for(BOOST_AUTO(pos,child.begin());pos != child.end();++pos)  //boost中的auto  
                 {  

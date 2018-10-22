@@ -2,9 +2,6 @@
 #include <fstream>
 using namespace std;
 namespace kurff{
-
-
-
     void ConvertICDAR2013::read_train(){
         ifstream fi(this->data_->path+"/"+"Splits/train.txt", ios::in);
         std::string name;

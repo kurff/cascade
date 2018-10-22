@@ -30,6 +30,7 @@ void TransformDataLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype>*>& bottom,
     const vector<Blob<Dtype>*>& top) {
     data_transformer_->Transform(bottom[0], top[0]);
     
+    
 
 }
 

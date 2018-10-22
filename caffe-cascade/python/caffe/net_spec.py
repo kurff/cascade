@@ -185,6 +185,10 @@ class NetSpec(object):
     def __getitem__(self, item):
         return self.__getattr__(item)
 
+    def keys(self):
+        keys = [k for k, v in six.iteritems(self.tops)]
+        return keys
+
     def to_proto(self):
         names = {v: k for k, v in six.iteritems(self.tops)}
         autonames = Counter()
