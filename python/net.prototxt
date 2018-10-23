@@ -10,6 +10,29 @@ layer {
   }
 }
 layer {
+  name: "proposal"
+  type: "TextProposal"
+  bottom: "data"
+  top: "proposal"
+  text_proposal_param {
+    proposal_method: "Canny"
+    proposal_method: "MSER"
+    num_proposals: 200
+    min_size: 20
+  }
+}
+layer {
+  name: "data_process"
+  type: "TransformData"
+  bottom: "data"
+  top: "data_process"
+  transform_param {
+    mean_value: 104.0
+    mean_value: 117.0
+    mean_value: 123.0
+  }
+}
+layer {
   name: "conv1_1"
   type: "Convolution"
   bottom: "data"

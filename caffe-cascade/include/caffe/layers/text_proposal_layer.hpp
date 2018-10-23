@@ -43,7 +43,7 @@ class TextProposalLayer : public Layer<Dtype> {
    std::vector<shared_ptr<kurff::Proposal> > proposals_;
    int num_proposals_;
    int min_size_;
-
+   std::vector<std::shared_ptr<Blob<Dtype> > > cache_;
    //TransformationParameter transform_param_;
    //shared_ptr<DataTransformer<Dtype> > data_transformer_;
 

@@ -38,6 +38,7 @@
         "utility": "cpp",
         "*.ipp": "cpp",
         "vector": "cpp",
-        "string": "cpp"
+        "string": "cpp",
+        "algorithm": "cpp"
     }
 }
