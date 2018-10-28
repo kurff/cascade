@@ -1,0 +1,13 @@
+cmake_minimum_required(VERSION 2.8.7)
+include_directories(/media/kurff/d45400e1-76eb-453c-a31e-9ae30fafb7fd/cascade/caffe-cascade/)
+include_directories(/media/kurff/d45400e1-76eb-453c-a31e-9ae30fafb7fd/cascade/caffe-cascade/distribute/include)
+include_directories(/usr/local/cuda/include/)
+link_directories(/media/kurff/d45400e1-76eb-453c-a31e-9ae30fafb7fd/cascade/caffe-cascade/distribute/lib)
+
+add_definitions(-DUSE_OPENCV)
+add_compile_options(-std=c++11)
+set(OPENCV_LIBS opencv_core opencv_highgui opencv_imgproc opencv_imgcodecs)
+aux_source_directory(. RCNN)
+add_library(rcnn ${RCNN} )
+add_executable(run_faster_rcnn run_faster_rcnn.cpp)
+target_link_libraries(run_faster_rcnn rcnn caffe boost_system boost_filesystem glog ${OPENCV_LIBS})
