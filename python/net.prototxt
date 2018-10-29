@@ -35,7 +35,7 @@ layer {
 layer {
   name: "conv1_1"
   type: "Convolution"
-  bottom: "data"
+  bottom: "data_process"
   top: "conv1_1"
   param {
     lr_mult: 1.0
@@ -496,78 +496,105 @@ layer {
   top: "conv5_3"
 }
 layer {
-  name: "pool5"
-  type: "Pooling"
+  name: "feat1"
+  type: "ROIPooling"
+  bottom: "pool1"
+  bottom: "proposal"
+  top: "feat1"
+  roi_pooling_param {
+    pooled_h: 7
+    pooled_w: 7
+    spatial_scale: 0.5
+  }
+}
+layer {
+  name: "feat2"
+  type: "ROIPooling"
+  bottom: "pool2"
+  bottom: "proposal"
+  top: "feat2"
+  roi_pooling_param {
+    pooled_h: 7
+    pooled_w: 7
+    spatial_scale: 0.25
+  }
+}
+layer {
+  name: "feat3"
+  type: "ROIPooling"
+  bottom: "pool3"
+  bottom: "proposal"
+  top: "feat3"
+  roi_pooling_param {
+    pooled_h: 7
+    pooled_w: 7
+    spatial_scale: 0.125
+  }
+}
+layer {
+  name: "feat4"
+  type: "ROIPooling"
+  bottom: "pool4"
+  bottom: "proposal"
+  top: "feat4"
+  roi_pooling_param {
+    pooled_h: 7
+    pooled_w: 7
+    spatial_scale: 0.0625
+  }
+}
+layer {
+  name: "feat5"
+  type: "ROIPooling"
   bottom: "conv5_3"
-  top: "pool5"
-  pooling_param {
-    pool: MAX
-    kernel_size: 3
-    stride: 1
-    pad: 1
+  bottom: "proposal"
+  top: "feat5"
+  roi_pooling_param {
+    pooled_h: 7
+    pooled_w: 7
+    spatial_scale: 0.03125
   }
 }
 layer {
-  name: "fc6"
-  type: "Convolution"
-  bottom: "pool5"
-  top: "fc6"
-  param {
-    lr_mult: 1.0
-    decay_mult: 1.0
-  }
-  param {
-    lr_mult: 2.0
-    decay_mult: 0.0
-  }
-  convolution_param {
-    num_output: 1024
-    pad: 6
-    kernel_size: 3
-    weight_filler {
-      type: "xavier"
-    }
-    bias_filler {
-      type: "constant"
-      value: 0.0
-    }
-    dilation: 6
+  name: "feat"
+  type: "Concat"
+  bottom: "feat1"
+  bottom: "feat2"
+  bottom: "feat3"
+  bottom: "feat4"
+  top: "feat"
+}
+layer {
+  name: "fc"
+  type: "InnerProduct"
+  bottom: "feat"
+  top: "fc"
+  inner_product_param {
+    num_output: 128
   }
 }
 layer {
-  name: "relu6"
-  type: "ReLU"
-  bottom: "fc6"
-  top: "fc6"
-}
-layer {
-  name: "fc7"
-  type: "Convolution"
-  bottom: "fc6"
-  top: "fc7"
-  param {
-    lr_mult: 1.0
-    decay_mult: 1.0
-  }
-  param {
-    lr_mult: 2.0
-    decay_mult: 0.0
-  }
-  convolution_param {
-    num_output: 1024
-    kernel_size: 1
-    weight_filler {
-      type: "xavier"
-    }
-    bias_filler {
-      type: "constant"
-      value: 0.0
-    }
+  name: "drop6"
+  type: "Dropout"
+  bottom: "fc"
+  top: "fc"
+  dropout_param {
+    dropout_ratio: 0.5
   }
 }
 layer {
-  name: "relu7"
-  type: "ReLU"
-  bottom: "fc7"
-  top: "fc7"
+  name: "logit"
+  type: "InnerProduct"
+  bottom: "fc"
+  top: "logit"
+  inner_product_param {
+    num_output: 2
+  }
+}
+layer {
+  name: "loss"
+  type: "SoftmaxWithLoss"
+  bottom: "logit"
+  bottom: "label"
+  top: "loss"
 }
