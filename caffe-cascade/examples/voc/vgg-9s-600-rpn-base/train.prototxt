@@ -23,7 +23,7 @@ layer {
     mean_value: 123
   }
   detection_data_param {
-    root_folder: "/your/path/to/VOCdevkit/"
+    root_folder: "/media/kurff/d45400e1-76eb-453c-a31e-9ae30fafb7fd/data/ICDAR2013_VOC/"
     source: "../../../data/voc/window_file_voc0712_trainval.txt"
     batch_size: 4
     short_size: 600
