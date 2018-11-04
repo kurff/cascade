@@ -11,8 +11,8 @@ layer {
     mean_value: 123
   }
   eval_data_param {
-    root_folder: "/your/path/to/VOCdevkit/"
-    source: "../../../data/voc/window_file_voc07_test.txt"
+    root_folder: "/media/kurff/d45400e1-76eb-453c-a31e-9ae30fafb7fd/data/ICDAR2013_VOC/"
+    source: "/media/kurff/d45400e1-76eb-453c-a31e-9ae30fafb7fd/data/ICDAR2013_VOC/window_icdar2013.txt"
     batch_size: 1
     short_size: 600
     long_size: 1000
@@ -474,10 +474,10 @@ layer {
   propagate_down: 0
 }
 layer {
-  name: "fc6"
+  name: "fc6c"
   type: "InnerProduct"
   bottom: "roi_pool"
-  top: "fc6"
+  top: "fc6c"
   param {
     lr_mult: 1
   }
@@ -485,7 +485,7 @@ layer {
     lr_mult: 2
   }
   inner_product_param {
-    num_output: 2048
+    num_output: 128
     weight_filler {
       type: "gaussian"
       std: 0.001
@@ -499,14 +499,14 @@ layer {
 layer {
   name: "relu6"
   type: "ReLU"
-  bottom: "fc6"
-  top: "fc6"
+  bottom: "fc6c"
+  top: "fc6c"
 }
 layer {
-  name: "fc7"
+  name: "fc7c"
   type: "InnerProduct"
-  bottom: "fc6"
-  top: "fc7"
+  bottom: "fc6c"
+  top: "fc7c"
   param {
     lr_mult: 1
   }
@@ -514,7 +514,7 @@ layer {
     lr_mult: 2
   }
   inner_product_param {
-    num_output: 2048
+    num_output: 128
     weight_filler {
       type: "gaussian"
       std: 0.001
@@ -528,13 +528,13 @@ layer {
 layer {
   name: "relu7"
   type: "ReLU"
-  bottom: "fc7"
-  top: "fc7"
+  bottom: "fc7c"
+  top: "fc7c"
 }
 layer {
   name: "cls_pred"
   type: "InnerProduct"
-  bottom: "fc7"
+  bottom: "fc7c"
   top: "cls_pred"
   param {
     lr_mult: 1
@@ -543,7 +543,7 @@ layer {
     lr_mult: 2
   }
   inner_product_param {
-    num_output: 21
+    num_output: 2
     weight_filler {
       type: "gaussian"
       std: 0.01
@@ -557,7 +557,7 @@ layer {
 layer {
   name: "bbox_pred"
   type: "InnerProduct"
-  bottom: "fc7"
+  bottom: "fc7c"
   top: "bbox_pred"
   param {
     lr_mult: 1
@@ -621,10 +621,10 @@ layer {
     phase: TEST
   }
   detection_evaluate_param {
-    num_classes: 21
+    num_classes: 2
     overlap_threshold: 0.5
     evaluate_difficult_gt: false
-    name_size_file: "../../../data/voc/voc07_test_name_size.txt"
+    name_size_file: "/media/kurff/d45400e1-76eb-453c-a31e-9ae30fafb7fd/data/ICDAR2013_VOC/icdar2013_size.txt"
   }
 }
 layer {
@@ -638,10 +638,10 @@ layer {
     phase: TEST
   }
   detection_evaluate_param {
-    num_classes: 21
+    num_classes: 2
     overlap_threshold: 0.6
     evaluate_difficult_gt: false
-    name_size_file: "../../../data/voc/voc07_test_name_size.txt"
+    name_size_file: "/media/kurff/d45400e1-76eb-453c-a31e-9ae30fafb7fd/data/ICDAR2013_VOC/icdar2013_size.txt"
   }
 }
 layer {
@@ -655,10 +655,10 @@ layer {
     phase: TEST
   }
   detection_evaluate_param {
-    num_classes: 21
+    num_classes: 2
     overlap_threshold: 0.7
     evaluate_difficult_gt: false
-    name_size_file: "../../../data/voc/voc07_test_name_size.txt"
+    name_size_file: "/media/kurff/d45400e1-76eb-453c-a31e-9ae30fafb7fd/data/ICDAR2013_VOC/icdar2013_size.txt"
   }
 }
 layer {
@@ -672,10 +672,10 @@ layer {
     phase: TEST
   }
   detection_evaluate_param {
-    num_classes: 21
+    num_classes: 2
     overlap_threshold: 0.8
     evaluate_difficult_gt: false
-    name_size_file: "../../../data/voc/voc07_test_name_size.txt"
+    name_size_file: "/media/kurff/d45400e1-76eb-453c-a31e-9ae30fafb7fd/data/ICDAR2013_VOC/icdar2013_size.txt"
   }
 }
 layer {
@@ -689,9 +689,9 @@ layer {
     phase: TEST
   }
   detection_evaluate_param {
-    num_classes: 21
+    num_classes: 2
     overlap_threshold: 0.9
     evaluate_difficult_gt: false
-    name_size_file: "../../../data/voc/voc07_test_name_size.txt"
+    name_size_file: "/media/kurff/d45400e1-76eb-453c-a31e-9ae30fafb7fd/data/ICDAR2013_VOC/icdar2013_size.txt"
   }
 }
