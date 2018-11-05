@@ -12,7 +12,7 @@ net.data_process = L.TransformData(net.data, transform_param=dict(mean_value=[10
 
 
 
-model_libs.VGGNetBody(net, from_layer='data_process',need_fc=False, fully_conv=True, reduced=True, dilated=True,dropout=False);
+model_libs.VGGNetBodyHalf(net, from_layer='data_process',need_fc=False, fully_conv=True, reduced=True, dilated=True,dropout=False);
 #model_libs.ResNet101Body(net, from_layer='data')
 
 net.feat1 = L.ROIPooling(net.pool1,net.proposal, roi_pooling_param=dict(pooled_h=7, pooled_w=7, spatial_scale=0.5));

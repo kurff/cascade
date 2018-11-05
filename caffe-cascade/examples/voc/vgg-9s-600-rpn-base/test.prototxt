@@ -19,60 +19,74 @@ layer {
   }
 }
 layer {
-  bottom: "data"
-  top: "conv1_1"
   name: "conv1_1"
   type: "Convolution"
+  bottom: "data"
+  top: "conv1_1"
   param {
-    lr_mult: 0
-    decay_mult: 0
+    lr_mult: 1.0
+    decay_mult: 1.0
   }
   param {
-    lr_mult: 0
-    decay_mult: 0
+    lr_mult: 2.0
+    decay_mult: 0.0
   }
   convolution_param {
-    num_output: 64
+    num_output: 16
     pad: 1
     kernel_size: 3
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
   }
 }
 layer {
-  bottom: "conv1_1"
-  top: "conv1_1"
   name: "relu1_1"
   type: "ReLU"
+  bottom: "conv1_1"
+  top: "conv1_1"
 }
 layer {
-  bottom: "conv1_1"
-  top: "conv1_2"
   name: "conv1_2"
   type: "Convolution"
+  bottom: "conv1_1"
+  top: "conv1_2"
   param {
-    lr_mult: 0
-    decay_mult: 0
+    lr_mult: 1.0
+    decay_mult: 1.0
   }
   param {
-    lr_mult: 0
-    decay_mult: 0
+    lr_mult: 2.0
+    decay_mult: 0.0
   }
   convolution_param {
-    num_output: 64
+    num_output: 16
     pad: 1
     kernel_size: 3
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
   }
 }
 layer {
-  bottom: "conv1_2"
-  top: "conv1_2"
   name: "relu1_2"
   type: "ReLU"
+  bottom: "conv1_2"
+  top: "conv1_2"
 }
 layer {
-  bottom: "conv1_2"
-  top: "pool1"
   name: "pool1"
   type: "Pooling"
+  bottom: "conv1_2"
+  top: "pool1"
   pooling_param {
     pool: MAX
     kernel_size: 2
@@ -80,60 +94,74 @@ layer {
   }
 }
 layer {
-  bottom: "pool1"
-  top: "conv2_1"
   name: "conv2_1"
   type: "Convolution"
+  bottom: "pool1"
+  top: "conv2_1"
   param {
-    lr_mult: 0
-    decay_mult: 0
+    lr_mult: 1.0
+    decay_mult: 1.0
   }
   param {
-    lr_mult: 0
-    decay_mult: 0
+    lr_mult: 2.0
+    decay_mult: 0.0
   }
   convolution_param {
-    num_output: 128
+    num_output: 16
     pad: 1
     kernel_size: 3
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
   }
 }
 layer {
-  bottom: "conv2_1"
-  top: "conv2_1"
   name: "relu2_1"
   type: "ReLU"
+  bottom: "conv2_1"
+  top: "conv2_1"
 }
 layer {
-  bottom: "conv2_1"
-  top: "conv2_2"
   name: "conv2_2"
   type: "Convolution"
+  bottom: "conv2_1"
+  top: "conv2_2"
   param {
-    lr_mult: 0
-    decay_mult: 0
+    lr_mult: 1.0
+    decay_mult: 1.0
   }
   param {
-    lr_mult: 0
-    decay_mult: 0
+    lr_mult: 2.0
+    decay_mult: 0.0
   }
   convolution_param {
-    num_output: 128
+    num_output: 16
     pad: 1
     kernel_size: 3
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
   }
 }
 layer {
-  bottom: "conv2_2"
-  top: "conv2_2"
   name: "relu2_2"
   type: "ReLU"
+  bottom: "conv2_2"
+  top: "conv2_2"
 }
 layer {
-  bottom: "conv2_2"
-  top: "pool2"
   name: "pool2"
   type: "Pooling"
+  bottom: "conv2_2"
+  top: "pool2"
   pooling_param {
     pool: MAX
     kernel_size: 2
@@ -141,61 +169,106 @@ layer {
   }
 }
 layer {
-  bottom: "pool2"
-  top: "conv3_1"
   name: "conv3_1"
   type: "Convolution"
+  bottom: "pool2"
+  top: "conv3_1"
+  param {
+    lr_mult: 1.0
+    decay_mult: 1.0
+  }
+  param {
+    lr_mult: 2.0
+    decay_mult: 0.0
+  }
   convolution_param {
-    num_output: 256
+    num_output: 16
     pad: 1
     kernel_size: 3
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
   }
 }
 layer {
-  bottom: "conv3_1"
-  top: "conv3_1"
   name: "relu3_1"
   type: "ReLU"
+  bottom: "conv3_1"
+  top: "conv3_1"
 }
 layer {
-  bottom: "conv3_1"
-  top: "conv3_2"
   name: "conv3_2"
   type: "Convolution"
+  bottom: "conv3_1"
+  top: "conv3_2"
+  param {
+    lr_mult: 1.0
+    decay_mult: 1.0
+  }
+  param {
+    lr_mult: 2.0
+    decay_mult: 0.0
+  }
   convolution_param {
-    num_output: 256
+    num_output: 16
     pad: 1
     kernel_size: 3
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
   }
 }
 layer {
-  bottom: "conv3_2"
-  top: "conv3_2"
   name: "relu3_2"
   type: "ReLU"
+  bottom: "conv3_2"
+  top: "conv3_2"
 }
 layer {
-  bottom: "conv3_2"
-  top: "conv3_3"
   name: "conv3_3"
   type: "Convolution"
+  bottom: "conv3_2"
+  top: "conv3_3"
+  param {
+    lr_mult: 1.0
+    decay_mult: 1.0
+  }
+  param {
+    lr_mult: 2.0
+    decay_mult: 0.0
+  }
   convolution_param {
-    num_output: 256
+    num_output: 16
     pad: 1
     kernel_size: 3
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
   }
 }
 layer {
-  bottom: "conv3_3"
-  top: "conv3_3"
   name: "relu3_3"
   type: "ReLU"
+  bottom: "conv3_3"
+  top: "conv3_3"
 }
 layer {
-  bottom: "conv3_3"
-  top: "pool3"
   name: "pool3"
   type: "Pooling"
+  bottom: "conv3_3"
+  top: "pool3"
   pooling_param {
     pool: MAX
     kernel_size: 2
@@ -203,61 +276,106 @@ layer {
   }
 }
 layer {
-  bottom: "pool3"
-  top: "conv4_1"
   name: "conv4_1"
   type: "Convolution"
+  bottom: "pool3"
+  top: "conv4_1"
+  param {
+    lr_mult: 1.0
+    decay_mult: 1.0
+  }
+  param {
+    lr_mult: 2.0
+    decay_mult: 0.0
+  }
   convolution_param {
-    num_output: 512
+    num_output: 16
     pad: 1
     kernel_size: 3
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
   }
 }
 layer {
-  bottom: "conv4_1"
-  top: "conv4_1"
   name: "relu4_1"
   type: "ReLU"
+  bottom: "conv4_1"
+  top: "conv4_1"
 }
 layer {
-  bottom: "conv4_1"
-  top: "conv4_2"
   name: "conv4_2"
   type: "Convolution"
+  bottom: "conv4_1"
+  top: "conv4_2"
+  param {
+    lr_mult: 1.0
+    decay_mult: 1.0
+  }
+  param {
+    lr_mult: 2.0
+    decay_mult: 0.0
+  }
   convolution_param {
-    num_output: 512
+    num_output: 16
     pad: 1
     kernel_size: 3
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
   }
 }
 layer {
-  bottom: "conv4_2"
-  top: "conv4_2"
   name: "relu4_2"
   type: "ReLU"
+  bottom: "conv4_2"
+  top: "conv4_2"
 }
 layer {
-  bottom: "conv4_2"
-  top: "conv4_3"
   name: "conv4_3"
   type: "Convolution"
+  bottom: "conv4_2"
+  top: "conv4_3"
+  param {
+    lr_mult: 1.0
+    decay_mult: 1.0
+  }
+  param {
+    lr_mult: 2.0
+    decay_mult: 0.0
+  }
   convolution_param {
-    num_output: 512
+    num_output: 16
     pad: 1
     kernel_size: 3
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
   }
 }
 layer {
-  bottom: "conv4_3"
-  top: "conv4_3"
   name: "relu4_3"
   type: "ReLU"
+  bottom: "conv4_3"
+  top: "conv4_3"
 }
 layer {
-  bottom: "conv4_3"
-  top: "pool4"
   name: "pool4"
   type: "Pooling"
+  bottom: "conv4_3"
+  top: "pool4"
   pooling_param {
     pool: MAX
     kernel_size: 2
@@ -265,55 +383,103 @@ layer {
   }
 }
 layer {
-  bottom: "pool4"
-  top: "conv5_1"
   name: "conv5_1"
   type: "Convolution"
+  bottom: "pool4"
+  top: "conv5_1"
+  param {
+    lr_mult: 1.0
+    decay_mult: 1.0
+  }
+  param {
+    lr_mult: 2.0
+    decay_mult: 0.0
+  }
   convolution_param {
-    num_output: 512
+    num_output: 16
     pad: 1
     kernel_size: 3
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+    dilation: 1
   }
 }
 layer {
-  bottom: "conv5_1"
-  top: "conv5_1"
   name: "relu5_1"
   type: "ReLU"
+  bottom: "conv5_1"
+  top: "conv5_1"
 }
 layer {
-  bottom: "conv5_1"
-  top: "conv5_2"
   name: "conv5_2"
   type: "Convolution"
+  bottom: "conv5_1"
+  top: "conv5_2"
+  param {
+    lr_mult: 1.0
+    decay_mult: 1.0
+  }
+  param {
+    lr_mult: 2.0
+    decay_mult: 0.0
+  }
   convolution_param {
-    num_output: 512
+    num_output: 16
     pad: 1
     kernel_size: 3
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+    dilation: 1
   }
 }
 layer {
-  bottom: "conv5_2"
-  top: "conv5_2"
   name: "relu5_2"
   type: "ReLU"
+  bottom: "conv5_2"
+  top: "conv5_2"
 }
 layer {
-  bottom: "conv5_2"
-  top: "conv5_3"
   name: "conv5_3"
   type: "Convolution"
+  bottom: "conv5_2"
+  top: "conv5_3"
+  param {
+    lr_mult: 1.0
+    decay_mult: 1.0
+  }
+  param {
+    lr_mult: 2.0
+    decay_mult: 0.0
+  }
   convolution_param {
-    num_output: 512
+    num_output: 16
     pad: 1
     kernel_size: 3
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+    dilation: 1
   }
 }
 layer {
-  bottom: "conv5_3"
-  top: "conv5_3"
   name: "relu5_3"
   type: "ReLU"
+  bottom: "conv5_3"
+  top: "conv5_3"
 }
 
 #========================== rpn ===============================
@@ -610,88 +776,4 @@ layer {
     bbox_std: 0.1 bbox_std: 0.1 bbox_std: 0.2 bbox_std: 0.2
   }
 }
-layer {
-  name: "detection_eval_05"
-  type: "DetectionEvaluate"
-  bottom: "frcnn_out"
-  bottom: "gt_boxes"
-  bottom: "image_sizes"
-  top: "detection_eval_05"
-  include {
-    phase: TEST
-  }
-  detection_evaluate_param {
-    num_classes: 2
-    overlap_threshold: 0.5
-    evaluate_difficult_gt: false
-    name_size_file: "/media/kurff/d45400e1-76eb-453c-a31e-9ae30fafb7fd/data/ICDAR2013_VOC/icdar2013_size.txt"
-  }
-}
-layer {
-  name: "detection_eval_06"
-  type: "DetectionEvaluate"
-  bottom: "frcnn_out"
-  bottom: "gt_boxes"
-  bottom: "image_sizes"
-  top: "detection_eval_06"
-  include {
-    phase: TEST
-  }
-  detection_evaluate_param {
-    num_classes: 2
-    overlap_threshold: 0.6
-    evaluate_difficult_gt: false
-    name_size_file: "/media/kurff/d45400e1-76eb-453c-a31e-9ae30fafb7fd/data/ICDAR2013_VOC/icdar2013_size.txt"
-  }
-}
-layer {
-  name: "detection_eval_07"
-  type: "DetectionEvaluate"
-  bottom: "frcnn_out"
-  bottom: "gt_boxes"
-  bottom: "image_sizes"
-  top: "detection_eval_07"
-  include {
-    phase: TEST
-  }
-  detection_evaluate_param {
-    num_classes: 2
-    overlap_threshold: 0.7
-    evaluate_difficult_gt: false
-    name_size_file: "/media/kurff/d45400e1-76eb-453c-a31e-9ae30fafb7fd/data/ICDAR2013_VOC/icdar2013_size.txt"
-  }
-}
-layer {
-  name: "detection_eval_08"
-  type: "DetectionEvaluate"
-  bottom: "frcnn_out"
-  bottom: "gt_boxes"
-  bottom: "image_sizes"
-  top: "detection_eval_08"
-  include {
-    phase: TEST
-  }
-  detection_evaluate_param {
-    num_classes: 2
-    overlap_threshold: 0.8
-    evaluate_difficult_gt: false
-    name_size_file: "/media/kurff/d45400e1-76eb-453c-a31e-9ae30fafb7fd/data/ICDAR2013_VOC/icdar2013_size.txt"
-  }
-}
-layer {
-  name: "detection_eval_09"
-  type: "DetectionEvaluate"
-  bottom: "frcnn_out"
-  bottom: "gt_boxes"
-  bottom: "image_sizes"
-  top: "detection_eval_09"
-  include {
-    phase: TEST
-  }
-  detection_evaluate_param {
-    num_classes: 2
-    overlap_threshold: 0.9
-    evaluate_difficult_gt: false
-    name_size_file: "/media/kurff/d45400e1-76eb-453c-a31e-9ae30fafb7fd/data/ICDAR2013_VOC/icdar2013_size.txt"
-  }
-}
+
